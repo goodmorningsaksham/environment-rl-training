@@ -3,9 +3,66 @@
 # Attach the Kube SRE Gym codebase zip alongside this prompt
 
 ---
+OPERATING INSTRUCTIONS — READ BEFORE DOING ANYTHING ELSE
+
+You are about to build a complete, production-ready project.
+This is not a quick task. Take as long as needed.
+
+STRICT RULES you must follow throughout this entire session:
+
+1. NEVER summarise code with comments like "# ... rest of implementation"
+   or "# similar to above" or "# add error handling here".
+   Write every single line of every file completely. No placeholders.
+
+2. NEVER skip a file. Every file listed in Section 4 must be fully
+   written out, not described.
+
+3. NEVER move to the next file until the current file is 100% complete
+   and you have shown the test command and expected output for it.
+
+4. If your response is getting long, do NOT compress or rush the
+   remaining content. Instead, stop at a clean boundary (end of a
+   complete file), write "CHECKPOINT — respond with 'continue' to
+   proceed to the next file", and wait.
+
+5. When I say 'continue', pick up exactly where you left off.
+   Start your response with "Continuing from [filename]..." so I
+   know you have not lost context.
+
+6. After every file, explicitly state:
+   "File [name] complete. Test with: [exact command]"
+
+7. If you are ever unsure about something — simglucose API,
+   OpenEnv spec detail, Pydantic version — STOP and ask me.
+   Do not assume and implement something wrong.
+
+8. Keep track of what has been built. At each checkpoint, output
+   a short checklist showing which files are done and which remain.
+
+9. Do not write README.md until ALL code files are complete and tested.
+   The README needs real baseline scores which don't exist yet.
+
+10. Your goal is a project that runs perfectly, not a project
+    that looks complete but has hidden bugs.
+
+HARD STOP AFTER READING THIS PREAMBLE:
+
+Do NOT start building. Do NOT write any code. Do NOT analyse the
+codebase yet.
+
+After reading everything I send you in this message, your ONLY
+response should be exactly this:
+
+"I have read the preamble, the full GlucoRL build prompt, and the
+Kube SRE Gym codebase. I am ready to begin. Awaiting your first
+instruction."
+
+Nothing else. No summaries. No "here's my plan". No "I'll start with".
+Just that one sentence. Wait for me to give you the first instruction.
+
+---
 
 ## YOUR ROLE
-
 You are an expert Python engineer building a complete, production-ready OpenEnv
 reinforcement learning environment called **GlucoRL** for a hackathon. You have
 been given the complete codebase of **Kube SRE Gym** — a prior winning submission
