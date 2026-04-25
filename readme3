@@ -1,44 +1,287 @@
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Post-RL Quality Check (Think-then-Act)
+
+>>> Task 1: ALREADY DONE (from checkpoint) — skipping
+
+>>> Task 2: ALREADY DONE (from checkpoint) — skipping
+
+============================================================
+GRPO Training — Task 3: Booking: Structural Drift + Train Selection
+============================================================
+ Subsampled to 240 records (from 1050)
+  Records: 240 | Epochs: 1
+  Effective steps: ~30 | num_generations: 4
+  LR: 5.00e-06 | Temp: 0.7
+  GPU free before: 79.1 GB
+  Oracle action dist: {'wait': 149, 'click': 67, 'type': 24}
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 240 | Num Epochs = 1 | Total steps = 120
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 4 x 1) = 8
+ "-____-"     Trainable parameters = 29,933,568 of 3,115,872,256 (0.96% trained)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+Unsloth: Will smartly offload gradients to save VRAM!
+ [120/120 21:39, Epoch 1/1]
+Step	Training Loss	reward	reward_std	completions / mean_length	completions / min_length	completions / max_length	completions / clipped_ratio	completions / mean_terminated_length	completions / min_terminated_length	completions / max_terminated_length	kl	rewards / oracle_comparison_reward / mean	rewards / oracle_comparison_reward / std
+5	0.007252	0.551250	0.007964	72.400000	52.400000	145.400000	0.050000	63.207144	52.400000	86.000000	1.741661	0.551250	0.133188
+10	0.039160	0.502250	0.011500	78.475000	55.000000	169.800000	0.050000	69.585716	55.000000	116.800000	1.726881	0.502250	0.069884
+15	-0.048688	0.380000	0.004732	76.575000	53.200000	121.000000	0.025000	72.842857	53.200000	112.600000	1.745753	0.380000	0.077717
+20	-0.005249	0.509250	0.017319	74.075000	55.000000	134.600000	0.025000	69.610715	55.000000	114.800000	1.698101	0.509250	0.178949
+25	0.020891	0.678500	0.084057	65.600000	52.000000	105.200000	0.000000	65.600000	52.000000	105.200000	1.766936	0.678500	0.236696
+30	0.062485	0.427000	0.074594	81.675000	52.000000	164.800000	0.050000	73.050002	52.000000	128.000000	1.707517	0.427000	0.145599
+35	-0.003375	0.369750	0.071269	75.250000	51.200000	128.400000	0.050000	66.541667	51.200000	99.400000	1.780852	0.369750	0.105212
+40	0.011643	0.449000	0.081450	77.900000	50.600000	150.800000	0.025000	73.767857	50.600000	146.800000	2.225520	0.449000	0.177668
+45	0.054723	0.534500	0.163329	57.975000	48.000000	75.000000	0.000000	57.975000	48.000000	75.000000	1.845004	0.534500	0.193049
+50	0.025290	0.755250	0.055130	57.200000	49.800000	84.800000	0.000000	57.200000	49.800000	84.800000	1.837438	0.755250	0.135740
+55	0.025509	0.547500	0.045525	54.425000	48.400000	64.600000	0.000000	54.425000	48.400000	64.600000	1.862736	0.547500	0.175896
+60	0.068593	0.616000	0.088525	67.300000	47.400000	135.000000	0.025000	62.396429	47.400000	96.800000	1.772016	0.616000	0.137822
+65	0.027537	0.599750	0.037532	61.600000	50.400000	100.000000	0.025000	56.957144	50.400000	74.200000	1.779963	0.599750	0.189581
+70	0.001729	0.900000	0.000000	58.600000	55.000000	72.000000	0.000000	58.600000	55.000000	72.000000	1.736366	0.900000	0.000000
+75	0.038205	0.684250	0.035500	55.250000	49.000000	90.800000	0.000000	55.250000	49.000000	90.800000	1.857539	0.684250	0.065642
+80	0.019998	0.587000	0.019630	54.800000	49.600000	65.400000	0.000000	54.800000	49.600000	65.400000	1.918102	0.587000	0.115259
+85	0.039400	0.596500	0.051000	54.175000	49.000000	74.200000	0.000000	54.175000	49.000000	74.200000	1.950799	0.596500	0.173086
+90	0.024041	0.653500	0.081696	55.175000	48.800000	74.400000	0.000000	55.175000	48.800000	74.400000	1.888511	0.653500	0.151722
+95	0.013958	0.650750	0.055077	53.400000	48.600000	63.400000	0.000000	53.400000	48.600000	63.400000	1.886325	0.650750	0.130098
+100	0.032835	0.639750	0.052500	56.800000	50.400000	78.400000	0.000000	56.800000	50.400000	78.400000	1.824147	0.639750	0.172405
+105	0.001890	0.790000	0.000000	52.500000	51.000000	55.800000	0.000000	52.500000	51.000000	55.800000	1.889931	0.790000	0.023519
+110	0.001813	0.728000	0.000000	53.075000	49.000000	56.000000	0.000000	53.075000	49.000000	56.000000	1.814152	0.728000	0.089800
+115	0.002233	0.698000	0.018000	53.100000	49.200000	62.200000	0.000000	53.100000	49.200000	62.200000	1.890420	0.698000	0.128757
+120	-0.003337	0.693000	0.035796	51.150000	48.200000	58.800000	0.000000	51.150000	48.200000	58.800000	2.074665	0.693000	0.071364
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+
+  Results:
+    Training loss: 0.0191
+    Avg reward: 0.6059
+    Final reward_std: 0.0358 (OK)
+    Reward trend: 0.508 → 0.700 (IMPROVING)
+Unsloth: Restored added_tokens_decoder metadata in ./checkpoints/grpo_after_task_3/tokenizer_config.json.
+    Saved checkpoint: ./checkpoints/grpo_after_task_3
+    GPU free after cleanup: 79.3 GB
+
+============================================================
+GRPO Training — Task 4: Booking: Full Chaos
+============================================================
+ Subsampled to 240 records (from 720)
+  Records: 240 | Epochs: 1
+  Effective steps: ~30 | num_generations: 4
+  LR: 4.50e-06 | Temp: 0.7
+  GPU free before: 79.3 GB
+  Oracle action dist: {'click': 220, 'type': 20}
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 240 | Num Epochs = 1 | Total steps = 120
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 4 x 1) = 8
+ "-____-"     Trainable parameters = 29,933,568 of 3,115,872,256 (0.96% trained)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+Unsloth: Will smartly offload gradients to save VRAM!
+ [120/120 19:59, Epoch 1/1]
+Step	Training Loss	reward	reward_std	completions / mean_length	completions / min_length	completions / max_length	completions / clipped_ratio	completions / mean_terminated_length	completions / min_terminated_length	completions / max_terminated_length	kl	rewards / oracle_comparison_reward / mean	rewards / oracle_comparison_reward / std
+5	0.042031	0.596500	0.040763	62.025000	55.200000	81.600000	0.000000	62.025000	55.200000	81.600000	1.849093	0.596500	0.079439
+10	0.016561	0.608000	0.028000	64.750000	55.000000	110.600000	0.025000	60.053572	55.000000	74.000000	1.922752	0.608000	0.080222
+15	0.032796	0.588000	0.061662	62.075000	51.400000	85.800000	0.000000	62.075000	51.400000	85.800000	2.397822	0.588000	0.129207
+20	0.012286	0.651750	0.016500	58.900000	53.600000	75.400000	0.000000	58.900000	53.600000	75.400000	1.879485	0.651750	0.023335
+25	-0.003295	0.582500	0.003000	62.175000	54.600000	99.800000	0.025000	57.342857	54.600000	61.600000	1.907196	0.582500	0.085490
+30	-0.026822	0.609500	0.026195	57.050000	47.000000	65.600000	0.000000	57.050000	47.000000	65.600000	1.875941	0.609500	0.078296
+35	0.014413	0.616500	0.029275	66.225000	55.400000	102.000000	0.025000	61.925000	55.400000	86.400000	1.860541	0.616500	0.079401
+40	-0.000541	0.649000	0.024000	61.025000	53.400000	90.600000	0.000000	61.025000	53.400000	90.600000	1.860013	0.649000	0.033941
+45	0.001952	0.622000	0.000000	56.025000	53.600000	58.600000	0.000000	56.025000	53.600000	58.600000	1.952650	0.622000	0.040624
+50	0.001922	0.622000	0.000000	57.025000	54.600000	58.800000	0.000000	57.025000	54.600000	58.800000	1.922629	0.622000	0.040624
+55	-0.012045	0.628000	0.012000	65.775000	52.800000	116.800000	0.025000	61.153572	52.800000	83.600000	1.867492	0.628000	0.057594
+60	-0.032387	0.585000	0.002000	58.775000	51.400000	80.200000	0.000000	58.775000	51.400000	80.200000	1.878369	0.585000	0.081290
+65	0.025611	0.653000	0.014000	69.150000	55.400000	136.200000	0.025000	64.325001	55.400000	98.800000	1.808882	0.653000	0.019799
+70	0.008627	0.658250	0.022760	61.050000	55.400000	79.800000	0.000000	61.050000	55.400000	79.800000	1.907451	0.658250	0.029978
+75	-0.000784	0.651750	0.016500	56.900000	53.400000	61.800000	0.000000	56.900000	53.400000	61.800000	1.985854	0.651750	0.023335
+80	0.014033	0.659000	0.026000	57.900000	54.600000	71.200000	0.000000	57.900000	54.600000	71.200000	1.982049	0.659000	0.036770
+85	0.001686	0.514000	0.012000	57.725000	53.800000	69.400000	0.000000	57.725000	53.800000	69.400000	1.916739	0.514000	0.098218
+90	0.016586	0.648500	0.023000	62.350000	55.800000	94.400000	0.000000	62.350000	55.800000	94.400000	1.912198	0.648500	0.032527
+95	-0.008198	0.621500	0.005000	62.475000	55.600000	79.800000	0.000000	62.475000	55.600000	79.800000	2.651858	0.621500	0.044770
+100	-0.000508	0.664750	0.014500	58.375000	54.400000	69.400000	0.000000	58.375000	54.400000	69.400000	1.936177	0.664750	0.020506
+105	0.001953	0.546000	0.000000	59.525000	54.200000	80.600000	0.000000	59.525000	54.200000	80.600000	1.959782	0.546000	0.040624
+110	0.021848	0.652250	0.015500	61.200000	54.000000	90.800000	0.000000	61.200000	54.000000	90.800000	1.896119	0.652250	0.021920
+115	-0.004378	0.664500	0.016080	60.425000	53.600000	87.600000	0.000000	60.425000	53.600000	87.600000	1.907074	0.664500	0.022350
+120	0.003529	0.660000	0.000000	57.250000	54.200000	62.800000	0.000000	57.250000	54.200000	62.800000	3.454659	0.660000	0.000000
+
+  Results:
+    Training loss: 0.0053
+    Avg reward: 0.6230
+    Final reward_std: 0.0000 (LOW)
+    Reward trend: 0.606 → 0.635 (IMPROVING)
+Unsloth: Restored added_tokens_decoder metadata in ./checkpoints/grpo_after_task_4/tokenizer_config.json.
+    Saved checkpoint: ./checkpoints/grpo_after_task_4
+    GPU free after cleanup: 79.3 GB
+
+============================================================
+GRPO Training — Task 5: E-commerce: Clean Store
+============================================================
+ Subsampled to 240 records (from 1050)
+  Records: 240 | Epochs: 1
+  Effective steps: ~30 | num_generations: 4
+  LR: 4.05e-06 | Temp: 0.7
+  GPU free before: 79.3 GB
+  Oracle action dist: {'click': 225, 'type': 15}
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 240 | Num Epochs = 1 | Total steps = 120
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 4 x 1) = 8
+ "-____-"     Trainable parameters = 29,933,568 of 3,115,872,256 (0.96% trained)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:172: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:202: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+/home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:254: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
+  warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
+Unsloth: Will smartly offload gradients to save VRAM!
+ [120/120 25:08, Epoch 1/1]
+Step	Training Loss	reward	reward_std	completions / mean_length	completions / min_length	completions / max_length	completions / clipped_ratio	completions / mean_terminated_length	completions / min_terminated_length	completions / max_terminated_length	kl	rewards / oracle_comparison_reward / mean	rewards / oracle_comparison_reward / std
+5	0.005894	0.652000	0.018000	63.375000	55.000000	88.600000	0.000000	63.375000	55.000000	88.600000	1.827466	0.652000	0.024459
+10	0.027225	0.657500	0.007000	69.900000	55.000000	152.200000	0.025000	65.042857	55.000000	113.400000	2.027590	0.657500	0.009899
+15	0.013741	0.631750	0.057855	67.550000	55.400000	112.000000	0.000000	67.550000	55.400000	112.000000	2.021785	0.631750	0.081553
+20	0.001739	0.660000	0.000000	64.175000	55.200000	93.200000	0.000000	64.175000	55.200000	93.200000	1.759759	0.660000	0.000000
+25	-0.032941	0.586750	0.025197	66.375000	55.000000	110.200000	0.025000	61.989287	55.000000	89.200000	1.846167	0.586750	0.083706
+30	0.019960	0.589500	0.014000	64.050000	55.000000	110.400000	0.000000	64.050000	55.000000	110.400000	1.853764	0.589500	0.079154
+35	0.022027	0.660000	0.004000	68.200000	55.000000	134.200000	0.025000	63.489286	55.000000	101.200000	1.797728	0.660000	0.004680
+40	0.010794	0.649000	0.024000	64.525000	54.600000	115.600000	0.000000	64.525000	54.600000	115.600000	1.801514	0.649000	0.033941
+45	0.009669	0.660500	0.001000	60.300000	55.600000	80.800000	0.000000	60.300000	55.600000	80.800000	1.845729	0.660500	0.001414
+50	0.007879	0.649000	0.024000	66.450000	54.400000	94.600000	0.000000	66.450000	54.400000	94.600000	1.768148	0.649000	0.033941
+55	0.043609	0.598500	0.049493	84.475000	56.000000	128.000000	0.050000	76.516667	56.000000	104.800000	1.643905	0.598500	0.063150
+60	-0.059310	0.665500	0.006464	71.825000	55.200000	94.600000	0.000000	71.825000	55.200000	94.600000	1.655811	0.665500	0.009258
+65	0.003638	0.589750	0.048612	84.975000	55.600000	152.600000	0.025000	80.950002	55.600000	133.600000	1.628540	0.589750	0.128885
+70	-0.003853	0.654500	0.030155	80.375000	55.200000	126.200000	0.000000	80.375000	55.200000	126.200000	1.651237	0.654500	0.040506
+75	-0.029541	0.618750	0.030340	85.650000	61.000000	129.000000	0.025000	81.432144	61.000000	105.000000	1.567712	0.618750	0.081402
+80	0.000353	0.629250	0.010813	99.175000	58.600000	144.000000	0.075000	86.845000	58.600000	112.000000	1.480439	0.629250	0.054009
+85	-0.046455	0.635500	0.006155	94.750000	67.800000	144.600000	0.025000	91.264287	67.800000	131.400000	1.567004	0.635500	0.048240
+90	0.038874	0.653750	0.049185	98.400000	80.600000	143.400000	0.050000	90.725000	80.600000	120.600000	1.435271	0.653750	0.067544
+95	-0.027522	0.636500	0.005000	89.950000	67.800000	123.800000	0.000000	89.950000	67.800000	123.800000	1.439251	0.636500	0.048166
+100	0.021200	0.618500	0.042155	91.450000	72.200000	131.600000	0.000000	91.450000	72.200000	131.600000	1.453016	0.618500	0.083464
+105	0.018940	0.679000	0.001155	93.875000	85.000000	128.600000	0.025000	89.907144	85.000000	101.800000	1.417251	0.679000	0.001852
+110	0.002530	0.669500	0.018364	89.500000	80.000000	104.200000	0.000000	89.500000	80.000000	104.200000	1.553426	0.669500	0.024945
+115	0.005662	0.556500	0.006464	86.625000	60.600000	143.800000	0.000000	86.625000	60.600000	143.800000	1.556079	0.556500	0.129768
+120	-0.011875	0.677500	0.004155	90.000000	76.800000	106.000000	0.000000	90.000000	76.800000	106.000000	1.419103	0.677500	0.004899
+
+  Results:
+    Training loss: 0.0018
+    Avg reward: 0.6366
+    Final reward_std: 0.0042 (LOW)
+    Reward trend: 0.630 → 0.640 (FLAT)
+Unsloth: Restored added_tokens_decoder metadata in ./checkpoints/grpo_after_task_5/tokenizer_config.json.
+    Saved checkpoint: ./checkpoints/grpo_after_task_5
+    GPU free after cleanup: 79.3 GB
+
+============================================================
+GRPO Training — Task 6: E-commerce: Label Drift + Validation
+============================================================
+ Subsampled to 240 records (from 1050)
+  Records: 240 | Epochs: 1
+  Effective steps: ~30 | num_generations: 4
+  LR: 3.65e-06 | Temp: 0.7
+  GPU free before: 79.3 GB
+  Oracle action dist: {'click': 224, 'type': 16}
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 240 | Num Epochs = 1 | Total steps = 120
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 4 x 1) = 8
+ "-____-"     Trainable parameters = 29,933,568 of 3,115,872,256 (0.96% trained)
+
+
+Post-RL Quality Check (Booking + E-commerce)
 ============================================================
 /home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:71: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
   warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
 /home/user/miniconda/lib/python3.10/site-packages/transformers/modeling_attn_mask_utils.py:281: FutureWarning: The attention mask API under `transformers.modeling_attn_mask_utils` (`AttentionMaskConverter`) is deprecated and will be removed in Transformers v5.10. Please use the new API in `transformers.masking_utils`.
   warnings.warn(DEPRECATION_MESSAGE, FutureWarning)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
 
-[Easy]
-  1: think='I've filled both From and To fields. Clicking btn_1 (Search) submits the form....' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  2: think='I've filled both From and To fields. Clicking btn_1 (Search) submits the form....' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  3: think='I've filled both From and To fields. Clicking btn_1 (Search) first....' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+[Booking Easy]
+  1: think='I've filled all fields (inp_1, inp_2, cmb_1) and clicked btn_1. No more actions ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  2: think='I've filled all fields (inp_1, inp_2, cmb_1). Clicking btn_1 submits the form. N...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  3: think='I've filled all fields (inp_1, inp_2, cmb_1) and clicked btn_1. No more actions ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
   Diversity: 2/3 unique
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
 
-[Medium]
-  1: think='I've filled Starting Point (inp_1) and Going To (inp_2). Clicking btn_1 (Check A...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  2: think='I've filled both textboxes (Starting Point: "", Going To: ""). Clicking btn_1 (C...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  3: think='I've filled both textboxes (Starting Point & Going To). Clicking "Go" (cmb_1) fi...' action='{"action_type":"click","element_ref":"cmb_1","text_value":"","scroll_delta":0}'
+[Booking Medium]
+  1: think='I've filled all fields (inp_1, inp_2, cmb_1) and clicked btn_1. No more actions ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  2: think='I've filled both textbox fields (inp_1 & inp_2), selected "AC 2 Tier" (cmb_1), c...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Hyderabad","scroll_de'
+  3: think='I've filled both textbox fields (inp_1 & inp_2). cmb_1 is a dropdown with option...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
   Diversity: 3/3 unique
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-Both `max_new_tokens` (=300) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
 
-[Hard]
-  1: think='I've filled cmb_1="Chair Car", inp_1="Kolkata", inp_2="Lucknow". Clicking btn_1 ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  2: think='I've filled cmb_1="Chair Car", inp_1="Kolkata", inp_2="Lucknow". Clicking btn_1 ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  3: think='I've filled cmb_1="Chair Car", inp_1="Kolkata", inp_2="Lucknow". Clicking btn_1 ...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
-  Diversity: 1/3 unique
+[Booking Hard]
+  1: think='I've filled all fields (cmb_1, inp_1, inp_2). Clicking btn_1 (Look Up Trains) su...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}</'
+  2: think='I've filled all fields (cmb_1, inp_1, inp_2) and clicked btn_1. No btn to press ...' action='{"action_type":"wait","element_ref":"","text_value":"","scroll_delta":0}
+</answ'
+  3: think='I've filled all fields (cmb_1, inp_1, inp_2) and clicked btn_1. No btn to press ...' action='{"action_type":"wait","element_ref":"","text_value":"","scroll_delta":0}
+</answ'
+  Diversity: 3/3 unique
+
+[E-com Easy]
+  1: think='I've filled all required fields. Clicking "Place Order" (btn_4) is the last step...' action='{"action_type":"click","element_ref":"btn_4","text_value":"","scroll_delta":0}'
+  2: think='I've filled all required fields. Clicking "Place Order" (btn_4) is the last step...' action='{"action_type":"click","element_ref":"btn_4","text_value":"","scroll_delta":0}'
+  3: think='I've filled all fields. Clicking "Place Order" (btn_4) is the last step. First, ...' action='{"action_type":"click","element_ref":"btn_2","text_value":"","scroll_delta":0}'
+  Diversity: 3/3 unique
+
+[E-com Medium]
+  1: think='I've filled all fields. Clicking "Place Order" (btn_100) is the last step. No te...' action='{"action_type":"click","element_ref":"btn_100","text_value":"","scroll_delta":0'
+  2: think='I've filled all fields. Clicking "Place Order" (btn_100) is the final step. No m...' action='{"action_type":"click","element_ref":"btn_100","text_value":"","scroll_delta":0'
+  3: think='I've filled all fields. Clicking "Place Order" (btn_100) is the last step. No mo...' action='{"action_type":"click","element_ref":"btn_100","text_value":"","scroll_delta":0'
+  Diversity: 3/3 unique
+
+[E-com Checkout]
+  1: think='I've filled all required fields. Clicking btn_1 (Place Order) is the last action...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  2: think='I've filled all required fields. Clicking "Place Order" (btn_1) submits the form...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  3: think='I've filled all required fields. Clicking btn_1 (Place Order) submits the form....' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  Diversity: 3/3 unique
 
 ============================================================
-Overall: 9/9 valid JSON, 9/9 valid actions
-Reasoning: 9/9 include <think> tags
-Diversity: 6/9 unique outputs
+Overall: 18/18 valid JSON, 18/18 valid actions
+Reasoning: 18/18 include <think> tags
+Diversity: 16/18 unique outputs
+Action balance: click=15, type=1
 Model looks healthy after RL training.
 
-thius
-Both `max_new_tokens` (=250) and `max_length`(=32768) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
-
-
+In cell 10, I got weird playwright error about not executable, or previous version im not sure but even cell 10 didnt work. I dont understand why is RL training not working?
