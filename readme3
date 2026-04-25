@@ -1,21 +1,54 @@
-Environment: https://saksham1771-infinite-dom.hf.space
-WebSocket:   wss://saksham1771-infinite-dom.hf.space/ws
-Server status: {'status': 'healthy'}
-Loaded 8 task descriptions
+cell 9 : Post-RL Quality Check (Booking + E-commerce)
+============================================================
 
-Testing WebSocket connection...
-  Reset: OK — instruction: Book a AC 1st Class ticket from Mumbai to Lucknow...
-  Step:  OK — done=False, progress=[]
-  WebSocket session works! (reset + step on same instance)
+[Booking Easy]
+  1: think='I see empty textboxes for From (Delhi) and To (Mumbai). I need to type "Delhi" i...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Delhi","scroll_delta"'
+  2: think='I see empty textboxes for From (Delhi) and To (Mumbai). I need to type "Delhi" i...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Delhi","scroll_delta"'
+  3: think='I see empty textboxes "From" and "To". I will type "Delhi" into "From" and "Mumb...' action='{"action_type":"click","element_ref":"cmb_1","text_value":"","scroll_delta":0}'
+  Diversity: 2/3 unique
 
-=== Random Baseline (Tasks 1, 5) ===
-  Task 1: avg 0.0/5 nodes completed
-  Task 5: avg 1.0/5 nodes completed
+[Booking Medium]
+  1: think='I see empty textbox fields ["inp_1", "inp_2"]. First I need to type "Hyderabad" ...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Hyderabad","scroll_de'
+  2: think='I see empty textbox fields ["inp_1", "inp_2"]. First I need to type "Hyderabad" ...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Hyderabad","scroll_de'
+  3: think='I see empty textbox fields. First I need to type "Hyderabad" into Starting Point...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Hyderabad","scroll_de'
+  Diversity: 3/3 unique
 
-=== Trained Model — All 8 Tasks (Think-then-Act + Step History) ===
+[Booking Hard]
+  1: think='I've seen the cookie banner. Clicking "Accept" dismisses it. Next I need to sele...' action='{"action_type":"click","element_ref":"btn_99","text_value":"","scroll_delta":0}'
+  2: think='I've seen the cookie banner. Clicking "Accept" dismisses it. Next I need to sele...' action='{"action_type":"click","element_ref":"btn_99","text_value":"","scroll_delta":0}'
+  3: think='I see btn_99 (cookie banner). Clicking it first.
+I need to fill inp_1 (Origin), ...' action='{"action_type":"click","element_ref":"btn_99","text_value":"","scroll_delta":0}'
+  Diversity: 3/3 unique
+
+[E-com Easy]
+  1: think='I see a search form (frm_1), product categories (cmb_1), and product links (lnk_...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  2: think='I see Filter dropdown (cmb_1), Product links (lnk_1, lnk_2, lnk_3). First I'll c...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  3: think='I see Filter dropdown (cmb_1), Product links (lnk_1, lnk_2, lnk_3). First I'll c...' action='{"action_type":"click","element_ref":"btn_1","text_value":"","scroll_delta":0}'
+  Diversity: 3/3 unique
+
+[E-com Medium]
+  1: think='I see a search form (frm_1). I need to type "Headphones" into the textbox (inp_1...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Headphones","scroll_d'
+  2: think='I see a search form (frm_1), a "No Thanks" button (btn_99), and a "Search" butto...' action='{"action_type":"click","element_ref":"lnk_1","text_value":"","scroll_delta":0}'
+  3: think='I see a search form (frm_1). I need to type "Headphones" in the textbox (inp_1),...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Headphones","scroll_d'
+  Diversity: 3/3 unique
+
+[E-com Checkout]
+  1: think='I see I need to fill out Shipping Details first. "Full Name" (inp_1) is empty; I...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Raj Kumar","scroll_de'
+  2: think='I see I need to fill out Shipping Details first. "Full Name" textbox is empty; I...' action='{"action_type":"type","element_ref":"inp_1","text_value":"Raj Kumar","scroll_de'
+  3: think='I see "hdg_1" (Heading) → "sec_1" (Region) → "txt_1" (Text) → "frm_1" (Form) → "...' action='{"action_type":"type","element_ref":"inp_1","text_value":"John Doe","scroll_del'
+  Diversity: 3/3 unique
+
+============================================================
+Overall: 0/18 valid JSON, 0/18 valid actions
+Reasoning: 18/18 include <think> tags
+Diversity: 17/18 unique outputs
+Action balance: click=0, type=0
+WARNING: JSON validity dropped after RL.
+
+cell 10 (task2):   Task 1 (Booking: clean form — standard labels, no distractors): avg 1.2/5 nodes, 30 steps, reward=-0.087
     [DEBUG] Reset OK | instruction: Book a Sleeper ticket from Pune to Ahmedabad...
     [DEBUG] total_nodes: 5
-    [DEBUG] a11y_tree length: 2094
+    [DEBUG] a11y_tree length: 2118
     [DEBUG] Step 0: {'action_type': 'click', 'element_ref': 'btn_1', 'text_value': '', 'scroll_delta': 0}
-    [DEBUG] Step 1: {'action_type': 'click', 'element_ref': 'btn_1', 'text_value': '', 'scroll_delta': 0}
-    [DEBUG] Step 2: {'action_type': 'type', 'element_ref': 'cmb_1', 'text_value': 'Sleeper (SL)', 'scroll_delta': 0}
+    [DEBUG] Step 1: {'action_type': 'type', 'element_ref': 'inp_2', 'text_value': 'Ahmedabad', 'scroll_delta': 0}
+    [DEBUG] Step 2: {'action_type': 'click', 'element_ref': 'cmb_1', 'text_value': '', 'scroll_delta': 0}
