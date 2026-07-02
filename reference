@@ -1,335 +1,56 @@
-kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml
-apiVersion: v1
-items:
-- addressType: IPv4
-  apiVersion: discovery.k8s.io/v1
-  endpoints:
-  - addresses:
-    - 10.244.0.10
-    conditions: {}
-  - addresses:
-    - 10.244.0.12
-    conditions: {}
-  kind: EndpointSlice
-  metadata:
-    creationTimestamp: "2026-07-02T21:04:14Z"
-    generation: 1
-    labels:
-      kubernetes.io/service-name: whoami
-    name: elasti-whoami-endpointslice-to-resolver-f25297859c
-    namespace: demo
-    resourceVersion: "4575"
-    uid: 8aa44ce4-751b-453b-a3e3-936c2ad35087
-  ports:
-  - name: ""
-    port: 8012
-    protocol: TCP
-- addressType: IPv4
-  apiVersion: discovery.k8s.io/v1
-  endpoints: null
-  kind: EndpointSlice
-  metadata:
-    annotations:
-      endpoints.kubernetes.io/last-change-trigger-time: "2026-07-02T21:04:16Z"
-    creationTimestamp: "2026-07-02T21:03:16Z"
-    generateName: whoami-
-    generation: 4
-    labels:
-      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
-      kubernetes.io/service-name: whoami
-    name: whoami-chqlx
-    namespace: demo
-    ownerReferences:
-    - apiVersion: v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: Service
-      name: whoami
-      uid: bfd135f8-1d42-463a-aa16-8511ab7a5e36
-    resourceVersion: "4594"
-    uid: 55176b73-c6e6-47b3-be38-6bb6084d3a70
-  ports: null
-kind: List
-metadata:
-  resourceVersion: ""
-PS C:\Users\saksh> kubectl get pods -n elasti -o wide
-NAME                                                  READY   STATUS    RESTARTS   AGE   IP            NODE                        NOMINATED NODE   READINESS GATES
-elasti-operator-controller-manager-5647c8bb77-svjqp   1/1     Running   0          28m   10.244.0.11   elasti-test-control-plane   <none>           <none>
-elasti-resolver-77945468fd-5fnpp                      1/1     Running   0          28m   10.244.0.10   elasti-test-control-plane   <none>           <none>
-elasti-resolver-77945468fd-pjmcf                      1/1     Running   0          26m   10.244.0.12   elasti-test-control-plane   <none>           <none>
-PS C:\Users\saksh> Start-Process -NoNewWindow kubectl -ArgumentList "port-forward","-n","demo","svc/whoami","8080:80"
-PS C:\Users\saksh> Measure-Command { curl.exe -v httperror: timed out waiting for the condition
-                 > Measure-Command { curl.exe -v http://localhost:8080/ } | Select-Object TotalSeconds
-* Host localhost:8080 was resolved.
-* IPv6: ::1
-* IPv4: 127.0.0.1
-*   Trying [::1]:8080...
-*   Trying 127.0.0.1:8080...
-* connect to ::1 port 8080 from :: port 51698 failed: Connection refused
-* connect to 127.0.0.1 port 8080 from 0.0.0.0 port 51699 failed: Connection refused
-* Failed to connect to localhost port 8080 after 2265 ms: Could not connect to server
-* closing connection #0
-curl: (7) Failed to connect to localhost port 8080 after 2265 ms: Could not connect to server
-
-TotalSeconds
-------------
-   2.5114083
-
-
-PS C:\Users\saksh> kubectl get pods -n demo
-No resources found in demo namespace.
-PS C:\Users\saksh> kubectl get svc -n demo
-NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-elasti-whoami-pvt-f25297859c   ClusterIP   10.96.183.189   <none>        80/TCP    13m
-whoami                         ClusterIP   10.96.193.57    <none>        80/TCP    13m
-PS C:\Users\saksh> kubectl get endpoints -n demo
-Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
-NAME                           ENDPOINTS   AGE
-elasti-whoami-pvt-f25297859c   <none>      13m
-whoami                         <none>      13m
-PS C:\Users\saksh> Start-Process -NoNewWindow kubectl -ArgumentList "port-forward","-n","demo","svc/whoami","8080:80"
-PS C:\Users\saksh> Measure-Command { curl.exe -v http://localhost:8080/ } | Select-Object TotalSeconds
-* Host localhost:8080 was resolved.
-* IPv6: ::1
-* IPv4: 127.0.0.1
-*   Trying [::1]:8080...
-*   Trying 127.0.0.1:8080...
-error: timed out waiting for the condition
-* connect to ::1 port 8080 from :: port 54530 failed: Connection refused
-* connect to 127.0.0.1 port 8080 from 0.0.0.0 port 54531 failed: Connection refused
-* Failed to connect to localhost port 8080 after 2622 ms: Could not connect to server
-* closing connection #0
-curl: (7) Failed to connect to localhost port 8080 after 2622 ms: Could not connect to server
-
-TotalSeconds
-------------
-   2.8526689
-
-
-PS C:\Users\saksh> Start-Process -NoNewWindow kubectl -ArgumentList "port-forward","-n","demo","svc/whoami","8080:80"
-PS C:\Users\saksh> Measure-Command { curl.exe -v http://localhost:8080/ } | Select-Object TotalSeconds
-* Host localhost:8080 was resolved.
-* IPv6: ::1
-* IPv4: 127.0.0.1
-*   Trying [::1]:8080...
-*   Trying 127.0.0.1:8080...
-* connect to ::1 port 8080 from :: port 54535 failed: Connection refused
-* connect to 127.0.0.1 port 8080 from 0.0.0.0 port 54536 failed: Connection refused
-* Failed to connect to localhost port 8080 after 2273 ms: Could not connect to server
-* closing connection #0
-curl: (7) Failed to connect to localhost port 8080 after 2273 ms: Could not connect to server
-
-TotalSeconds
-------------
-   2.4620718
-
-
-PS C:\Users\saksh> error: timed out waiting for the condition
-
-PS C:\Users\saksh>
-PS C:\Users\saksh> kubectl run curl-test --rm -it --restart=Never --image=curlimages/curl:8.10.1 -n demo -- sh
-All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
-If you don't see a command prompt, try pressing enter.
-~ $
-~ $ time curl -v http://whoami.demo.svc.cluster.local/
-* Host whoami.demo.svc.cluster.local:80 was resolved.
-* IPv6: (none)
-* IPv4: 10.96.193.57
-*   Trying 10.96.193.57:80...
-* Connected to whoami.demo.svc.cluster.local (10.96.193.57) port 80
-* using HTTP/1.x
-> GET / HTTP/1.1
-> Host: whoami.demo.svc.cluster.local
-> User-Agent: curl/8.10.1
-> Accept: */*
->
-* Request completely sent off
-< HTTP/1.1 200 OK
-< Connection: close
-< Content-Length: 304
-< Content-Type: text/plain; charset=utf-8
-< Date: Thu, 02 Jul 2026 21:27:05 GMT
-<
-Hostname: whoami-656898dd97-mn9jc
-IP: 127.0.0.1
-IP: ::1
-IP: 10.244.0.15
-IP: fe80::9c11:56ff:fe39:c637
-RemoteAddr: 10.244.0.10:39764
-GET / HTTP/1.1
-Host: whoami.demo.svc.cluster.local
-User-Agent: curl/8.10.1
-Accept: */*
-X-Forwarded-For: 10.244.0.14
-X-Forwarded-Host: whoami.demo.svc.cluster.local
-
-* shutting down connection #0
-real    0m 7.05s
-user    0m 0.06s
-sys     0m 0.02s
-~ $ --rm
-sh: --rm: not found
-~ $ time curl -s -o /dev/null -w "HTTP %{http_code}\n" http://whoami.demo.svc.cluster.local/
-HTTP 200
-real    0m 3.72s
-user    0m 0.06s
-sys     0m 0.06s
-~ $ time curl http://whoami.demo.svc.cluster.local/
-Hostname: whoami-656898dd97-gr5zj
-IP: 127.0.0.1
-IP: ::1
-IP: 10.244.0.16
-IP: fe80::c829:cfff:feee:6bb7
-RemoteAddr: 10.244.0.14:58124
-GET / HTTP/1.1
-Host: whoami.demo.svc.cluster.local
-User-Agent: curl/8.10.1
-Accept: */*
-
-real    0m 0.04s
-user    0m 0.01s
-sys     0m 0.01s
-~ $ exit
-pod "curl-test" deleted from demo namespace
-PS C:\Users\saksh> kubectl get pods -n demo
-No resources found in demo namespace.
-PS C:\Users\saksh> kubectl get elastiservice whoami -n demo -o yaml | Select-String -Pattern "mode"
-
-  mode: proxy
-
-
-PS C:\Users\saksh> kubectl run curlbox --image=curlimages/curl:8.10.1 -n demo --restart=Never -- sleep infinity
-pod/curlbox created
-PS C:\Users\saksh> kubectl wait --for=condition=ready pod curlbox -n demo --timeout=60s
-pod/curlbox condition met
-PS C:\Users\saksh> kubectl get pods -n demo
-NAME      READY   STATUS    RESTARTS   AGE
-curlbox   1/1     Running   0          32s
-PS C:\Users\saksh> kubectl get pods -n elasti -l app=elasti=resolver -o wide
-Error from server (BadRequest): Unable to find "/v1, Resource=pods" that match label selector "app=elasti=resolver", field selector "": found '=', expected: ',' or 'end of string'
-PS C:\Users\saksh> kubectl get pods -n elasti -l app=elasti-resolver -o wide
-NAME                               READY   STATUS    RESTARTS   AGE   IP            NODE                        NOMINATED NODE   READINESS GATES
-elasti-resolver-77945468fd-5fnpp   1/1     Running   0          55m   10.244.0.10   elasti-test-control-plane   <none>           <none>
-elasti-resolver-77945468fd-pjmcf   1/1     Running   0          52m   10.244.0.12   elasti-test-control-plane   <none>           <none>
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml
-apiVersion: v1
-items:
-- addressType: IPv4
-  apiVersion: discovery.k8s.io/v1
-  endpoints:
-  - addresses:
-    - 10.244.0.10
-    conditions: {}
-  - addresses:
-    - 10.244.0.12
-    conditions: {}
-  kind: EndpointSlice
-  metadata:
-    creationTimestamp: "2026-07-02T21:31:41Z"
-    generation: 1
-    labels:
-      kubernetes.io/service-name: whoami
-    name: elasti-whoami-endpointslice-to-resolver-f25297859c
-    namespace: demo
-    resourceVersion: "7811"
-    uid: 135902e0-029b-4f9c-946b-16564ed170d9
-  ports:
-  - name: ""
-    port: 8012
-    protocol: TCP
-- addressType: IPv4
-  apiVersion: discovery.k8s.io/v1
-  endpoints: null
-  kind: EndpointSlice
-  metadata:
-    annotations:
-      endpoints.kubernetes.io/last-change-trigger-time: "2026-07-02T21:31:42Z"
-    creationTimestamp: "2026-07-02T21:03:16Z"
-    generateName: whoami-
-    generation: 10
-    labels:
-      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
-      kubernetes.io/service-name: whoami
-    name: whoami-chqlx
-    namespace: demo
-    ownerReferences:
-    - apiVersion: v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: Service
-      name: whoami
-      uid: bfd135f8-1d42-463a-aa16-8511ab7a5e36
-    resourceVersion: "7819"
-    uid: 55176b73-c6e6-47b3-be38-6bb6084d3a70
-  ports: null
-kind: List
-metadata:
-  resourceVersion: ""
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-before.yaml
-PS C:\Users\saksh> kubectl get pods -n elasti -l app=elasti-resolver -o wide | Out-File -Encoding utf8 $env:TEMP\resolvers-before.txt
-PS C:\Users\saksh> Get-Content $env:TEMP\resolver-before.txt
-Get-Content : Cannot find path 'C:\Users\saksh\AppData\Local\Temp\resolver-before.txt' because it does not exist.
-At line:1 char:1
-+ Get-Content $env:TEMP\resolver-before.txt
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : ObjectNotFound: (C:\Users\saksh\...lver-before.txt:String) [Get-Content], ItemNotFoundException
-    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
-
-PS C:\Users\saksh> Get-Content $env:TEMP\resolvers-before.txt
-NAME                               READY   STATUS    RESTARTS   AGE   IP            NODE                        NOMINATED NODE   READINESS GATES
-elasti-resolver-77945468fd-5fnpp   1/1     Running   0          62m   10.244.0.10   elasti-test-control-plane   <none>           <none>
-elasti-resolver-77945468fd-pjmcf   1/1     Running   0          60m   10.244.0.12   elasti-test-control-plane   <none>           <none>
-PS C:\Users\saksh> kubectl delete pod elasti-resolver-77945468fd-5fnpp -n elasti --force --grace-period=0
-Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
-pod "elasti-resolver-77945468fd-5fnpp" force deleted from elasti namespace
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-after-kill.yaml
-PS C:\Users\saksh> Compare-Object `
->> (Get-Content $env:TEMP\endpointslice-before.yaml) `
->> (Get-Content $env:TEMP\endpointslice-after-kill.yaml)
-
-InputObject                  SideIndicator
------------                  -------------
-    generation: 2            =>
-    resourceVersion: "10705" =>
-    - 10.244.0.10            <=
-  - addresses:               <=
-    conditions: {}           <=
-    generation: 1            <=
-    resourceVersion: "7811"  <=
-
-
+docker stop $(docker ps -q)
+f49247b0aeca
+92e9f149c94c
+cbce018b5a63
+fb0e9dec07ed
+af885d7ba7f3
+8cda6af2846e
+10493f83ad65
+ff3c3457105c
+d6066b7d4edd
+2bf4b3747b8b
+35d0f2b54895
+19bb27bf3ac2
+4f3815e87675
+PS C:\Users\saksh> docker start $(docker ps -aq)
+f49247b0aeca
+92e9f149c94c
+cbce018b5a63
+fb0e9dec07ed
+af885d7ba7f3
+8cda6af2846e
+10493f83ad65
+ff3c3457105c
+d6066b7d4edd
+2bf4b3747b8b
+35d0f2b54895
+19bb27bf3ac2
+4f3815e87675
+52b53101d680
+daaa2ed4b88d
+aea9885061cb
+PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-before-deploy-delete.yaml
+PS C:\Users\saksh> kubectl delete deployment elasti-resolver -n elasti
+deployment.apps "elasti-resolver" deleted from elasti namespace
+PS C:\Users\saksh> kubectl get pods -n elasti
+NAME                                                  READY   STATUS    RESTARTS      AGE
+elasti-operator-controller-manager-5647c8bb77-svjqp   1/1     Running   1 (97s ago)   114m
 PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o jsonpath="{.items[0].endpoints[*].addresses}"
 ["10.244.0.12"] ["10.244.0.18"]
-PS C:\Users\saksh> 1..20 | ForEach-Object {
+PS C:\Users\saksh> 1..10 | ForEach-Object {
 >> $i = $_
 >> $result = kubectl exec -n demo curlbox -- curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s" --max-time 5 http://whoami.demo.svc.cluster.local/ 2>&1
 >> Write-Host "Request $i : $result"
 >> Start-Sleep -Milliseconds 500
 >> }
-Request 1 : HTTP 200 in 4.271644s
-Request 2 : HTTP 200 in 0.010454s
-Request 3 : HTTP 200 in 0.371366s
-Request 4 : HTTP 200 in 0.005654s
-Request 5 : HTTP 200 in 0.006204s
-Request 6 : HTTP 200 in 0.004206s
-Request 7 : HTTP 200 in 0.006616s
-Request 8 : HTTP 200 in 0.006828s
-Request 9 : HTTP 200 in 0.008771s
-Request 10 : HTTP 200 in 0.004184s
-Request 11 : HTTP 200 in 0.005330s
-Request 12 : HTTP 200 in 0.004198s
-Request 13 : HTTP 200 in 0.003089s
-Request 14 : HTTP 200 in 0.003062s
-Request 15 : HTTP 200 in 0.003012s
-Request 16 : HTTP 200 in 0.003233s
-Request 17 : HTTP 200 in 0.003976s
-Request 18 : HTTP 200 in 0.003894s
-Request 19 : HTTP 200 in 0.005257s
-Request 20 : HTTP 200 in 0.003322s
-PS C:\Users\saksh> kubectl get pods -n elasti -l app=elasti-resolver -o wide
-NAME                               READY   STATUS    RESTARTS   AGE    IP            NODE                        NOMINATED NODE   READINESS GATES
-elasti-resolver-77945468fd-gsj85   1/1     Running   0          7m4s   10.244.0.18   elasti-test-control-plane   <none>           <none>
-elasti-resolver-77945468fd-pjmcf   1/1     Running   0          81m    10.244.0.12   elasti-test-control-plane   <none>           <none>
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o jsonpath="{.items[0].endpoints[*].addresses}"
-["10.244.0.12"] ["10.244.0.18"]
+Request 1 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 2 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 3 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 4 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 5 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 6 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 7 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 8 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 9 : error: cannot exec into a container in a completed pod; current phase is Failed
+Request 10 : error: cannot exec into a container in a completed pod; current phase is Failed
 PS C:\Users\saksh>
