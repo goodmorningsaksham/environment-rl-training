@@ -1,59 +1,55 @@
- kubectl delete pod curlbox -n demo --ignore-not-found
-pod "curlbox" deleted from demo namespace
-PS C:\Users\saksh> kubectl run curlbox --image=curlimages/curl:8.10.1 -n demo --restart=Never -- sleep infinity
-pod/curlbox created
-PS C:\Users\saksh> kubectl wait --for=condition=ready pod curlbox -n demo --timeout=60s
-pod/curlbox condition met
-PS C:\Users\saksh> 1..10 | ForEach-Object {
->> $i = $_
->> $result = kubectl exec -n demo curlbox -- curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s" --max-time 5 http://whoami.demo.svc.cluster.local/ 2>&1
->> Write-Host "Request $i : $result"
->> Start-Sleep -Milliseconds 500
->> }
-Request 1 : command terminated with exit code 28 HTTP 000 in 5.001751s
-Request 2 : command terminated with exit code 28 HTTP 000 in 5.001423s
-Request 3 : command terminated with exit code 28 HTTP 000 in 5.000486s
-Request 4 : command terminated with exit code 28 HTTP 000 in 5.000471s
-Request 5 : command terminated with exit code 28 HTTP 000 in 5.000947s
-Request 6 : command terminated with exit code 28 HTTP 000 in 5.001291s
-Request 7 : command terminated with exit code 28 HTTP 000 in 5.001920s
-Request 8 : command terminated with exit code 28 HTTP 000 in 5.001484s
-Request 9 : command terminated with exit code 28 HTTP 000 in 5.001816s
-Request 10 : command terminated with exit code 28 HTTP 000 in 5.000850s
-PS C:\Users\saksh> kubectl get eointslice -n demo -l Kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-after-deploy-delete.yaml
-error: the server doesn't have a resource type "eointslice"
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l Kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-after-deploy-delete.yaml
-Error from server (BadRequest): Unable to find "discovery.k8s.io/v1, Resource=endpointslices" that match label selector "Kubernetes.io/service-name=whoami", field selector "": unable to parse requirement: <nil>: Invalid value: "Kubernetes.io/service-name": prefix part a lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o yaml | Out-File -Encoding utf8 $env:TEMP\endpointslice-after-deploy-delete.yaml
-PS C:\Users\saksh> Get-Content $env:TEMP\endpointslice-after-deploy-delete.yaml | Select-String -Pattern "addresses|10\."
+pwd
 
-  - addresses:
-    - 10.244.0.12
-  - addresses:
-    - 10.244.0.18
+Path                               
+----                               
+C:\Users\saksh\Downloads\KubeElasti
 
 
-PS C:\Users\saksh> helm upgrade --install elasti oci://tfy.jfrog.io/tfy-helm/elasti -n elasti
-Pulled: tfy.jfrog.io/tfy-helm/elasti:0.1.25
-Digest: sha256:c46fc807f049fa0906c15a36bcadc4f8b3469d5d81207a86e831a663ca1b097b
-Release "elasti" has been upgraded. Happy Helming!
-NAME: elasti
-LAST DEPLOYED: Fri Jul  3 04:15:18 2026
-NAMESPACE: elasti
-STATUS: deployed
-REVISION: 2
-DESCRIPTION: Upgrade complete
-TEST SUITE: None
-PS C:\Users\saksh> kubectl wait --for=condition=read pod -l app=elasti-resolver -n elasti --timeout=180s
-error: timed out waiting for the condition on pods/elasti-resolver-77945468fd-spk25
-PS C:\Users\saksh> kubectl wait --for=condition=read pod -l app=elasti-resolver -n elasti --timeout=180s
-PS C:\Users\saksh> kubectl wait --for=condition=ready pod -l app=elasti-resolver -n elasti --timeout=180s
-pod/elasti-resolver-77945468fd-spk25 condition met
-PS C:\Users\saksh> kubectl get pods -n elasti
-NAME                                                  READY   STATUS    RESTARTS      AGE
-elasti-operator-controller-manager-5647c8bb77-svjqp   1/1     Running   1 (17m ago)   129m
-elasti-resolver-77945468fd-spk25                      1/1     Running   0             4m43s
-PS C:\Users\saksh> kubectl get endpointslice -n demo -l kubernetes.io/service-name=whoami -o jsonpath="{.items[0].endpoints[*].addresses}"
-["10.244.0.12"]
-PS C:\Users\saksh> kubectl exec -n demo curlbox -- curl -s -o /dev/null -w "HTTP %{http_code}`n" --max-time 10 http://whoami.demo.svc.cluster.local/
-HTTP 200
+PS C:\Users\saksh\Downloads\KubeElasti> ls .\operator\Dockerfile
+
+
+    Directory: C:\Users\saksh\Downloads\KubeElasti\operator
+
+
+Mode                 LastWriteTime         Length Name                                                                                                                                       
+----                 -------------         ------ ----                                                                                                                                       
+-a----        03-07-2026     05:13           1367 Dockerfile                                                                                                                                 
+
+
+PS C:\Users\saksh\Downloads\KubeElasti> go version
+go version go1.26.4 windows/386
+kubectl get nodes
+NAME                        STATUS   ROLES           AGE     VERSION
+elasti-test-control-plane   Ready    control-plane   3h21m   v1.36.1
+PS C:\Users\saksh> kubectl config current-context
+kind-elasti-test
+PS C:\Users\saksh> kubectl get deployment elasti-operator-controller-manager -n elasti -o jsonpath='{.spec.template.spec.containers[0].image}'
+tfy.jfrog.io/tfy-images/elasti-operator:0.1.25
+PS C:\Users\saksh> echo
+
+cmdlet Write-Output at command pipeline position 1
+Supply values for the following parameters:
+InputObject[0]:
+PS C:\Users\saksh\Downloads\KubeElasti\operator> Select-String -Path .\Makefile -Pattern 'docker-build|operator.*image|build.operator' -Context 0,5 |
+>>     Select-Object -First 40
+
+> Makefile:81:.PHONY: docker-build
+> Makefile:82:docker-build: ## Build docker image with the manager.
+  Makefile:83:  $(CONTAINER_TOOL) build -t ${IMG} -f ./Dockerfile ../
+  Makefile:84:
+  Makefile:85:.PHONY: docker-push
+  Makefile:86:docker-push: ## Push docker image with the manager.
+  Makefile:87:  $(CONTAINER_TOOL) push ${IMG}
+> Makefile:90:# architectures. (i.e. make docker-buildx IMG=myregistry/mypoperator:0.0.1). To use this option you need to:
+  Makefile:91:# - be able to use docker buildx. More info: https://docs.docker.com/build/buildx/
+  Makefile:92:# - have enabled BuildKit. More info: https://docs.docker.com/develop/develop-images/build_enhancements/
+  Makefile:93:# - be able to push the image to your registry (i.e. if you do not set a valid value via IMG=<myregistry/image:<tag>> then the export will fail)
+  Makefile:94:# To adequately provide solutions that are compatible with multiple platforms, you should consider using this option.
+  Makefile:95:PLATFORMS ?= linux/amd64 #,linux/s390x,linux/ppc64le,linux/arm64,
+> Makefile:96:.PHONY: docker-buildx
+> Makefile:97:docker-buildx: ## Build and push docker image for the manager for cross-platform support
+  Makefile:98:  # copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
+  Makefile:99:  #sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
+  Makefile:100: - $(CONTAINER_TOOL) buildx create --name project-v3-builder
+  Makefile:101: $(CONTAINER_TOOL) buildx use project-v3-builder
+  Makefile:102: - $(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile ../
