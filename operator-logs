@@ -1,29 +1,90 @@
-kubectl logs -n elasti -l control-plane=controller-manager -f --tail=20
-I0702 22:33:26.601099       1 leaderelection.go:271] successfully acquired lease elasti/acf50383.truefoundry.io
-2026-07-02T22:33:26Z    DEBUG   events  elasti-operator-controller-manager-5647c8bb77-svjqp_6c5135fa-7ab2-4d4e-a9ef-23acd5915ef4 became leader  {"type": "Normal", "object": {"kind":"Lease","namespace":"elasti","name":"acf50383.truefoundry.io","uid":"7aea711a-371b-4521-a481-cfe170f912dd","apiVersion":"coordination.k8s.io/v1","resourceVersion":"13780"}, "reason": "LeaderElection"}
-2026-07-02T22:33:27Z    INFO    Starting EventSource    {"controller": "elastiservice", "controllerGroup": "elasti.truefoundry.com", "controllerKind": "ElastiService", "source": "kind source: *v1alpha1.ElastiService"}
-2026-07-02T22:33:27Z    INFO    Starting Controller     {"controller": "elastiservice", "controllerGroup": "elasti.truefoundry.com", "controllerKind": "ElastiService"}
-2026-07-02T22:33:27Z    INFO    Starting workers        {"controller": "elastiservice", "controllerGroup": "elasti.truefoundry.com", "controllerKind": "ElastiService", "worker count": 1}
-2026-07-02T22:33:27.294Z        DEBUG   controller/elastiservice_controller.go:57       - In Reconcile  {"es": "demo/whoami"}
-2026-07-02T22:33:27.328Z        INFO    controller/elastiservice_controller.go:98       Finalizer added to CRD  {"es": "demo/whoami"}
-2026-07-02T22:33:27.328Z        INFO    CRDDirectory    crddirectory/directory.go:56    Service found in directory      {"service": "demo/whoami"}
-2026-07-02T22:33:27.329Z        INFO    controller/elastiservice_controller.go:105      Watch added for ScaleTargetRef  {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
-2026-07-02T22:33:27.329Z        INFO    controller/elastiservice_controller.go:115      CRD added to service directory  {"es": "demo/whoami", "service": "whoami"}
-2026-07-02T22:33:27.329Z        DEBUG   controller/elastiservice_controller.go:117      - Out of Reconcile      {"es": "demo/whoami"}
-2026-07-02T22:33:41.550Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:33:41.805Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:34:08.970Z        WARN    controller/opsInformer.go:70    Resolver deployment deleted     {"deployment_name": "elasti-resolver"}
-2026-07-02T22:34:11.373Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:34:11.383Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:34:41.347Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:34:41.360Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:35:11.293Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:35:11.305Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:35:41.388Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:35:41.458Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:36:11.359Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:36:11.432Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:36:41.208Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:36:41.278Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
-2026-07-02T22:37:11.152Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
-2026-07-02T22:37:11.222Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+kubectl logs -n elasti -l control-plane=controller-manager -f --tail=5
+2026-07-03T00:46:15.385Z        DEBUG   controller/elastiservice_controller.go:117      - Out of Reconcile      {"es": "demo/whoami"}
+2026-07-03T00:46:15.386Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:46:15.399Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:46:45.565Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:46:45.659Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:47:15.093Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:47:15.163Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:47:45.172Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:47:45.198Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:48:15.049Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:48:15.102Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:48:39.840Z        WARN    controller/opsInformer.go:91    Resolver deployment deleted, switching proxy-mode services to serve mode        {"deployment_name": "elasti-resolver", "proxy_mode_services": 1}
+2026-07-03T00:48:39.925Z        DEBUG   controller/opsModes.go:25       [Switching to SERVE Mode]       {"es": "demo/whoami"}
+2026-07-03T00:48:39.953Z        INFO    controller/opsModes.go:96       1. Deleted endpointslice to resolver    {"service": "demo/whoami"}
+2026-07-03T00:48:39.953Z        INFO    controller/opsModes.go:45       [SERVE mode enabled]    {"es": "demo/whoami"}
+2026-07-03T00:48:40.173Z        INFO    controller/opsCRD.go:62 CRD Status updated successfully
+2026-07-03T00:48:40.174Z        INFO    controller/opsInformer.go:136   Switched service to serve mode after resolver deletion  {"es": "demo/whoami"}
+2026-07-03T00:48:40.265Z        DEBUG   controller/elastiservice_controller.go:57       - In Reconcile  {"es": "demo/whoami"}
+2026-07-03T00:48:40.267Z        INFO    controller/elastiservice_controller.go:98       Finalizer added to CRD  {"es": "demo/whoami"}
+2026-07-03T00:48:40.267Z        INFO    CRDDirectory    crddirectory/directory.go:56    Service found in directory      {"service": "demo/whoami"}
+2026-07-03T00:48:40.268Z        INFO    controller/elastiservice_controller.go:105      Watch added for ScaleTargetRef  {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
+2026-07-03T00:48:40.269Z        INFO    controller/elastiservice_controller.go:115      CRD added to service directory  {"es": "demo/whoami", "service": "whoami"}
+2026-07-03T00:48:40.269Z        DEBUG   controller/elastiservice_controller.go:117      - Out of Reconcile      {"es": "demo/whoami"}
+2026-07-03T00:48:45.012Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:48:45.076Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:49:14.941Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:49:15.029Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:49:44.942Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:49:44.980Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:50:14.941Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:50:14.956Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:50:45.116Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:50:45.140Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:51:14.649Z        INFO    controller/opsInformer.go:205   ScaleTargetRef changes detected {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
+2026-07-03T00:51:14.657Z        WARN    controller/opsInformer.go:282   status replicas not found
+2026-07-03T00:51:14.660Z        INFO    controller/opsInformer.go:223   ScaleTargetRef has 0 replicas or not ready, switching to proxy mode     {"kind": "Deployment", "name": "whoami", "es": "demo/whoami"}
+2026-07-03T00:51:14.661Z        DEBUG   controller/opsModes.go:25       [Switching to PROXY Mode]       {"es": "demo/whoami"}
+2026-07-03T00:51:14.737Z        INFO    controller/opsServices.go:44    Private service already exists  {"private-service": "demo/elasti-whoami-pvt-f25297859c"}
+2026-07-03T00:51:14.738Z        INFO    controller/opsModes.go:72       1. Checked and created private service  {"public service": "whoami", "private service": "elasti-whoami-pvt-f25297859c"}
+2026-07-03T00:51:14.834Z        ERROR   controller/opsEndpointslices.go:58      Failed to get IPs for Resolver  {"service": "whoami", "error": "no Resolver pod found"}
+2026-07-03T00:51:14.837Z        ERROR   controller/opsModes.go:48       Failed to enable PROXY mode     {"es": "demo/whoami", "error": "failed to create or update endpointslice to resolver: no Resolver pod found "}
+2026-07-03T00:51:15.259Z        INFO    controller/opsCRD.go:62 CRD Status updated successfully
+2026-07-03T00:51:15.259Z        ERROR   controller/opsInformer.go:194   Failed to handle ScaleTargetRef changes {"error": "failed to switch to proxy mode: failed to create or update endpointslice to resolver: no Resolver pod found "}
+2026-07-03T00:51:15.260Z        DEBUG   controller/elastiservice_controller.go:57       - In Reconcile  {"es": "demo/whoami"}
+2026-07-03T00:51:15.266Z        INFO    controller/elastiservice_controller.go:98       Finalizer added to CRD  {"es": "demo/whoami"}
+2026-07-03T00:51:15.266Z        INFO    CRDDirectory    crddirectory/directory.go:56    Service found in directory      {"service": "demo/whoami"}
+2026-07-03T00:51:15.334Z        INFO    controller/elastiservice_controller.go:105      Watch added for ScaleTargetRef  {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
+2026-07-03T00:51:15.335Z        INFO    controller/elastiservice_controller.go:115      CRD added to service directory  {"es": "demo/whoami", "service": "whoami"}
+2026-07-03T00:51:15.335Z        INFO    controller/opsInformer.go:169   Public service updated  {"service": "whoami", "es": "demo/whoami"}
+2026-07-03T00:51:15.335Z        DEBUG   controller/elastiservice_controller.go:117      - Out of Reconcile      {"es": "demo/whoami"}
+2026-07-03T00:51:15.368Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:51:15.413Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:51:44.836Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:51:44.856Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:52:14.681Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:52:14.688Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:52:45.072Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:52:45.186Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:53:14.674Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:53:14.738Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:53:45.006Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:53:45.205Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:54:14.641Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:54:14.653Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:54:44.487Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:54:44.498Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:55:14.631Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:55:14.801Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:55:44.497Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:55:44.556Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:56:14.292Z        INFO    controller/opsInformer.go:205   ScaleTargetRef changes detected {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
+2026-07-03T00:56:14.297Z        WARN    controller/opsInformer.go:282   status replicas not found
+2026-07-03T00:56:14.299Z        INFO    controller/opsInformer.go:223   ScaleTargetRef has 0 replicas or not ready, switching to proxy mode     {"kind": "Deployment", "name": "whoami", "es": "demo/whoami"}
+2026-07-03T00:56:14.300Z        DEBUG   controller/opsModes.go:25       [Switching to PROXY Mode]       {"es": "demo/whoami"}
+2026-07-03T00:56:14.306Z        INFO    controller/opsServices.go:44    Private service already exists  {"private-service": "demo/elasti-whoami-pvt-f25297859c"}
+2026-07-03T00:56:14.306Z        INFO    controller/opsModes.go:72       1. Checked and created private service  {"public service": "whoami", "private service": "elasti-whoami-pvt-f25297859c"}
+2026-07-03T00:56:14.310Z        ERROR   controller/opsEndpointslices.go:58      Failed to get IPs for Resolver  {"service": "whoami", "error": "no Resolver pod found"}
+2026-07-03T00:56:14.374Z        ERROR   controller/opsModes.go:48       Failed to enable PROXY mode     {"es": "demo/whoami", "error": "failed to create or update endpointslice to resolver: no Resolver pod found "}
+2026-07-03T00:56:14.478Z        INFO    controller/opsCRD.go:62 CRD Status updated successfully
+2026-07-03T00:56:14.479Z        ERROR   controller/opsInformer.go:194   Failed to handle ScaleTargetRef changes {"error": "failed to switch to proxy mode: failed to create or update endpointslice to resolver: no Resolver pod found "}
+2026-07-03T00:56:14.484Z        DEBUG   controller/elastiservice_controller.go:57       - In Reconcile  {"es": "demo/whoami"}
+2026-07-03T00:56:14.484Z        INFO    controller/elastiservice_controller.go:98       Finalizer added to CRD  {"es": "demo/whoami"}
+2026-07-03T00:56:14.484Z        INFO    CRDDirectory    crddirectory/directory.go:56    Service found in directory      {"service": "demo/whoami"}
+2026-07-03T00:56:14.485Z        INFO    controller/elastiservice_controller.go:105      Watch added for ScaleTargetRef  {"es": "demo/whoami", "scaleTargetRef": {"apiVersion":"apps/v1","kind":"Deployment","name":"whoami"}}
+2026-07-03T00:56:14.485Z        INFO    controller/elastiservice_controller.go:115      CRD added to service directory  {"es": "demo/whoami", "service": "whoami"}
+2026-07-03T00:56:14.485Z        DEBUG   controller/elastiservice_controller.go:117      - Out of Reconcile      {"es": "demo/whoami"}
+2026-07-03T00:56:14.574Z        DEBUG   ScaleHandler    scaling/scale_handler.go:344    Scaling {"kind": "Deployment", "namespace": "demo", "name": "whoami", "desired replicas": 0}
+2026-07-03T00:56:14.582Z        INFO    ScaleHandler    scaling/scale_handler.go:378    No scale required. Target already at desired replicas   {"kind": "Deployment", "namespace": "demo", "name": "whoami", "replicas": 0}
+2026-07-03T00:56:14.607Z        INFO    controller/opsInformer.go:169   Public service updated  {"service": "whoami", "es": "demo/whoami"}
