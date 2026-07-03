@@ -1,60 +1,17 @@
-helm upgrade --install elasti oci://tfy.jfrog.io/tfy-helm/elasti -n elasti
-Pulled: tfy.jfrog.io/tfy-helm/elasti:0.1.25
-Digest: sha256:c46fc807f049fa0906c15a36bcadc4f8b3469d5d81207a86e831a663ca1b097b
-level=WARN msg="upgrade failed" name=elasti error="conflict occurred while applying object elasti/elasti-operator-controller-manager apps/v1, Kind=Deployment: Apply failed with 1 conflict: conflict with \"kubectl-set\" using apps/v1: .spec.template.spec.containers[name=\"manager\"].image"
-Error: UPGRADE FAILED: conflict occurred while applying object elasti/elasti-operator-controller-manager apps/v1, Kind=Deployment: Apply failed with 1 conflict: conflict with "kubectl-set" using apps/v1: .spec.template.spec.containers[name="manager"].image
-PS C:\Users\saksh\Downloads\KubeElasti\operator> helm upgrade --install elasti oci://tfy.jfrog.io/tfy-helm/elasti -n elasti
-Pulled: tfy.jfrog.io/tfy-helm/elasti:0.1.25
-Digest: sha256:c46fc807f049fa0906c15a36bcadc4f8b3469d5d81207a86e831a663ca1b097b
-level=WARN msg="upgrade failed" name=elasti error="conflict occurred while applying object elasti/elasti-operator-controller-manager apps/v1, Kind=Deployment: Apply failed with 1 conflict: conflict with \"kubectl-set\" using apps/v1: .spec.template.spec.containers[name=\"manager\"].image"
-Error: UPGRADE FAILED: conflict occurred while applying object elasti/elasti-operator-controller-manager apps/v1, Kind=Deployment: Apply failed with 1 conflict: conflict with "kubectl-set" using apps/v1: .spec.template.spec.containers[name="manager"].image
-PS C:\Users\saksh\Downloads\KubeElasti\operator> helm upgrade --install elasti oci://tfy.jfrog.io/tfy-helm/elasti -n elasti --force
-Flag --force has been deprecated, use --force-replace instead
-Pulled: tfy.jfrog.io/tfy-helm/elasti:0.1.25
-Digest: sha256:c46fc807f049fa0906c15a36bcadc4f8b3469d5d81207a86e831a663ca1b097b
-level=WARN msg="upgrade failed" name=elasti error="invalid operation: cannot use server-side apply and force replace together"
-Error: UPGRADE FAILED: invalid operation: cannot use server-side apply and force replace together
-PS C:\Users\saksh\Downloads\KubeElasti\operator> helm upgrade --install elasti oci://tfy.jfrog.io/tfy-helm/elasti -n elasti --force-replace
-Pulled: tfy.jfrog.io/tfy-helm/elasti:0.1.25
-Digest: sha256:c46fc807f049fa0906c15a36bcadc4f8b3469d5d81207a86e831a663ca1b097b
-level=WARN msg="upgrade failed" name=elasti error="invalid operation: cannot use server-side apply and force replace together"
-Error: UPGRADE FAILED: invalid operation: cannot use server-side apply and force replace together
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl patch deployment elasti-operator-controller-manager -n elasti --type=json -p
-error: flag needs an argument: 'p' in -p
-See 'kubectl patch --help' for usage.
-PS C:\Users\saksh\Downloads\KubeElasti\operator>
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get deployment -n elasti
-NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-elasti-operator-controller-manager   1/1     1            1           4h34m
-elasti-resolver                      1/1     1            1           11m
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n elasti
-NAME                                                  READY   STATUS    RESTARTS   AGE
-elasti-operator-controller-manager-758fb75584-wpklc   1/1     Running   0          43m
-elasti-resolver-77945468fd-2swhc                      1/1     Running   0          12m
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n elasti -l control-panel=controller-manager -o jsonpath='{.items[0].endpoints[*].addresses}'
-error: error executing jsonpath "{.items[0].endpoints[*].addresses}": Error executing template: array index out of bounds: index 0, length 0. Printing more information for debugging the template:
-        template was:
-                {.items[0].endpoints[*].addresses}
-        object given to jsonpath engine was:
-                map[string]interface {}{"apiVersion":"v1", "items":[]interface {}{}, "kind":"List", "metadata":map[string]interface {}{"resourceVersion":""}}
-
-
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n elasti -l control-panel=controller-manager -o jsonpath='{.items[0].spec.containers[0].image}'
-error: error executing jsonpath "{.items[0].spec.containers[0].image}": Error executing template: array index out of bounds: index 0, length 0. Printing more information for debugging the template:
-        template was:
-                {.items[0].spec.containers[0].image}
-        object given to jsonpath engine was:
-                map[string]interface {}{"apiVersion":"v1", "items":[]interface {}{}, "kind":"List", "metadata":map[string]interface {}{"resourceVersion":""}}
-
-
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n elasti --show-labels
-NAME                                                  READY   STATUS    RESTARTS   AGE   LABELS
-elasti-operator-controller-manager-758fb75584-wpklc   1/1     Running   0          49m   app.kubernetes.io/instance=elasti,app.kubernetes.io/name=elasti,control-plane=controller-manager,pod-template-hash=758fb75584
-elasti-resolver-77945468fd-2swhc                      1/1     Running   0          18m   app.kubernetes.io/instance=elasti,app.kubernetes.io/name=elasti,app=elasti-resolver,pod-template-hash=77945468fd
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get deployment -n elastio
-No resources found in elastio namespace.
-PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get deployment -n elasti
-NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-elasti-operator-controller-manager   1/1     1            1           4h40m
-elasti-resolver                      1/1     1            1           18m
+ kubectl get pods -n elasti -l control-plane=controller-manager -o jsonpath='{.items[0].spec.containers[0].image}'
+elasti-operator:local-fix
+PS C:\Users\saksh\Downloads\KubeElasti\operator> Start-Sleep -Seconds 60
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n demo
+NAME      READY   STATUS    RESTARTS   AGE
+curlbox   1/1     Running   0          164m
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get elastiservice whoami -n demo -o jsonpath='{.status.mode}'
+proxy
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl exec -n demo curlbox -- curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s`n" --max-time 15 http://whoami.demo.svc.cluster.local/
+HTTP 200 in 4.353136s
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n demo
+NAME                      READY   STATUS    RESTARTS   AGE
+curlbox                   1/1     Running   0          166m
+whoami-656898dd97-kktm9   1/1     Running   0          10s
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl exec -n demo curlbox -- curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s`n" --max-time 5 http://whoami.demo.svc.cluster.local/
+HTTP 200 in 0.089803s
 PS C:\Users\saksh\Downloads\KubeElasti\operator>
