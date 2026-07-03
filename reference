@@ -1,55 +1,33 @@
-pwd
+What's next:
+    View a summary of image vulnerabilities and recommendations → docker scout quickview
+PS C:\Users\saksh\Downloads\KubeElasti\operator> docker images elasti-operator:local-fix
+                                                                                                                                        i Info →   U  In Use
+IMAGE                       ID             DISK USAGE   CONTENT SIZE   EXTRA
+elasti-operator:local-fix   287678e8b8bd         52MB             0B
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kind load docker-image elasti-operator:local-fix --name elasti-test
+Image: "elasti-operator:local-fix" with ID "sha256:287678e8b8bd3698bc44ae1c3334db2a5ee31ee433b6ba538fc03b6b31e996c8" not yet present on node "elasti-test-control-plane", loading...
+PS C:\Users\saksh\Downloads\KubeElasti\operator> docker exec elasti-test-control-plane crictl images | Select-String "elasti-operator"
 
-Path                               
-----                               
-C:\Users\saksh\Downloads\KubeElasti
-
-
-PS C:\Users\saksh\Downloads\KubeElasti> ls .\operator\Dockerfile
-
-
-    Directory: C:\Users\saksh\Downloads\KubeElasti\operator
-
-
-Mode                 LastWriteTime         Length Name                                                                                                                                       
-----                 -------------         ------ ----                                                                                                                                       
--a----        03-07-2026     05:13           1367 Dockerfile                                                                                                                                 
+docker.io/library/elasti-operator                        local-fix            287678e8b8bd3       53.1MB
+tfy.jfrog.io/tfy-images/elasti-operator                  0.1.25               951df1be98cd5       23.5MB
 
 
-PS C:\Users\saksh\Downloads\KubeElasti> go version
-go version go1.26.4 windows/386
-kubectl get nodes
-NAME                        STATUS   ROLES           AGE     VERSION
-elasti-test-control-plane   Ready    control-plane   3h21m   v1.36.1
-PS C:\Users\saksh> kubectl config current-context
-kind-elasti-test
-PS C:\Users\saksh> kubectl get deployment elasti-operator-controller-manager -n elasti -o jsonpath='{.spec.template.spec.containers[0].image}'
-tfy.jfrog.io/tfy-images/elasti-operator:0.1.25
-PS C:\Users\saksh> echo
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl set image deployment/elasti-operator-controller-manager -n elasti manager=elasti-operator:local-fix
 
-cmdlet Write-Output at command pipeline position 1
-Supply values for the following parameters:
-InputObject[0]:
-PS C:\Users\saksh\Downloads\KubeElasti\operator> Select-String -Path .\Makefile -Pattern 'docker-build|operator.*image|build.operator' -Context 0,5 |
->>     Select-Object -First 40
-
-> Makefile:81:.PHONY: docker-build
-> Makefile:82:docker-build: ## Build docker image with the manager.
-  Makefile:83:  $(CONTAINER_TOOL) build -t ${IMG} -f ./Dockerfile ../
-  Makefile:84:
-  Makefile:85:.PHONY: docker-push
-  Makefile:86:docker-push: ## Push docker image with the manager.
-  Makefile:87:  $(CONTAINER_TOOL) push ${IMG}
-> Makefile:90:# architectures. (i.e. make docker-buildx IMG=myregistry/mypoperator:0.0.1). To use this option you need to:
-  Makefile:91:# - be able to use docker buildx. More info: https://docs.docker.com/build/buildx/
-  Makefile:92:# - have enabled BuildKit. More info: https://docs.docker.com/develop/develop-images/build_enhancements/
-  Makefile:93:# - be able to push the image to your registry (i.e. if you do not set a valid value via IMG=<myregistry/image:<tag>> then the export will fail)
-  Makefile:94:# To adequately provide solutions that are compatible with multiple platforms, you should consider using this option.
-  Makefile:95:PLATFORMS ?= linux/amd64 #,linux/s390x,linux/ppc64le,linux/arm64,
-> Makefile:96:.PHONY: docker-buildx
-> Makefile:97:docker-buildx: ## Build and push docker image for the manager for cross-platform support
-  Makefile:98:  # copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
-  Makefile:99:  #sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
-  Makefile:100: - $(CONTAINER_TOOL) buildx create --name project-v3-builder
-  Makefile:101: $(CONTAINER_TOOL) buildx use project-v3-builder
-  Makefile:102: - $(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile ../
+deployment.apps/elasti-operator-controller-manager image updated
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl rollout restart deployment/elasti-operator-controller-manager -n elasti
+deployment.apps/elasti-operator-controller-manager restarted
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl rollout status deployment/elasti-operator-controller-manager -n elasti --timeout=90s
+Waiting for deployment "elasti-operator-controller-manager" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "elasti-operator-controller-manager" rollout to finish: 1 old replicas are pending termination...
+deployment "elasti-operator-controller-manager" successfully rolled out
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl get pods -n elasti -l control-plane=controller-manager -o jsonpath='{.items[0].spec.containers[0].image}'
+elasti-operator:local-fix
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl patch deployment elasti-operator-controller-manager -n elasti -p '{"spec":{"template":{"spec":{"containers":[{"name":"manager","imagePullPolicy":"IfNotPresent"}]}}}}'
+Error from server (BadRequest): invalid character 's' looking for beginning of object key string
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl patch deployment elasti-operator-controller-manager -n elasti -p '{"spec":{"template":{"spec":{"containers":[{"name":"manager","imagePullPolicy":"IfNotPresent"}]}}}}'
+Error from server (BadRequest): invalid character 's' looking for beginning of object key string
+PS C:\Users\saksh\Downloads\KubeElasti\operator> $patch = '{"spec":{"template":{"spec":{"containers":[{"name":"manager","imagePullPolicy":"IfNotPresent"}]}}}}'
+PS C:\Users\saksh\Downloads\KubeElasti\operator> kubectl patch deployment elasti-operator-controller-manager -n elasti -p $patch
+Error from server (BadRequest): invalid character 's' looking for beginning of object key string
+PS C:\Users\saksh\Downloads\KubeElasti\operator>
